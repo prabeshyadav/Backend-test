@@ -5,7 +5,7 @@ from ninja import Schema
 
 
 # ==========================================================
-# SIGN UP
+# SIGN UP REQUEST
 # ==========================================================
 
 class SignUpSchema(Schema):
@@ -17,7 +17,7 @@ class SignUpSchema(Schema):
 
 
 # ==========================================================
-# SIGN IN
+# SIGN IN REQUEST
 # ==========================================================
 
 class LoginAuthSchema(Schema):
@@ -29,11 +29,15 @@ class LoginSchema(Schema):
     auth: LoginAuthSchema
 
 
+# ==========================================================
+# SIGN IN RESPONSE
+# ==========================================================
+
 class SignInAttributesSchema(Schema):
     token: str
     email: str
     name: str
-    country: str | None
+    country: str | None = None
     createdAt: datetime
     updatedAt: datetime
 
@@ -49,7 +53,7 @@ class SignInResponseSchema(Schema):
 
 
 # ==========================================================
-# SIGN OUT
+# SIGN OUT RESPONSE
 # ==========================================================
 
 class SignOutAttributesSchema(Schema):
@@ -66,21 +70,29 @@ class SignOutResponseSchema(Schema):
 
 
 # ==========================================================
-# CONTENT CREATE / UPDATE REQUEST
+# CONTENT REQUEST SCHEMAS
 # ==========================================================
 
+# POST /contents
 class ContentCreateSchema(Schema):
     title: str
     body: str
 
 
+# PUT /contents/{id}
 class ContentUpdateSchema(Schema):
     title: str
     body: str
 
 
+# PATCH /contents/{id}
+class ContentPartialUpdateSchema(Schema):
+    title: str | None = None
+    body: str | None = None
+
+
 # ==========================================================
-# CONTENT RESPONSE
+# CONTENT RESPONSE SCHEMAS
 # ==========================================================
 
 class ContentAttributesSchema(Schema):
@@ -98,3 +110,11 @@ class ContentDataSchema(Schema):
 
 class ContentResponseSchema(Schema):
     data: ContentDataSchema
+
+
+# ==========================================================
+# ERROR RESPONSE
+# ==========================================================
+
+class ErrorResponseSchema(Schema):
+    message: str

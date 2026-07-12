@@ -1,8 +1,9 @@
 from django.db import transaction
 from django.contrib.auth import authenticate
 from .auth import generate_tokens
+from django.shortcuts import get_object_or_404
 
-from .models import User
+from .models import User, Content
 
 
 @transaction.atomic
@@ -37,3 +38,72 @@ def signin_service(payload):
     tokens = generate_tokens(user)
 
     return user, tokens
+
+def create_content_service(user, payload):
+    """
+    Create a new content entry for the authenticated user.
+    """
+
+    content = Content.objects.create(
+        owner=user,
+        title=payload.title,
+        body=payload.body,
+    )
+
+    return content
+
+
+def get_all_contents_service():
+    """
+    Retrieve all content entries.
+    """
+    return Content.objects.select_related("owner").all()
+
+
+
+def get_content_service(content_id):
+    return get_object_or_404(Content, id=content_id)
+
+
+
+
+
+def update_content_service(user, content_id, payload):
+
+    content = get_object_or_404(Content, id=content_id)
+
+    if content.owner != user:
+        raise PermissionError("Permission denied.")
+
+    content.title = payload.title
+    content.body = payload.body
+
+    content.save()
+
+    return content
+
+def partial_update_content_service(user, content_id, payload):
+
+    content = get_object_or_404(Content, id=content_id)
+
+    if content.owner != user:
+        raise PermissionError("Permission denied.")
+
+    if payload.title is not None:
+        content.title = payload.title
+
+    if payload.body is not None:
+        content.body = payload.body
+
+    content.save()
+
+    return content
+
+def delete_content_service(user, content_id):
+
+    content = get_object_or_404(Content, id=content_id)
+
+    if content.owner != user:
+        raise PermissionError("Permission denied.")
+
+    content.delete()
