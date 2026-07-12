@@ -4,4 +4,4 @@ set -o errexit
 python manage.py collectstatic --noinput
 python manage.py migrate
 
-exec gunicorn yourprojectname.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+exec gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000}
