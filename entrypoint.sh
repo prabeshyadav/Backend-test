@@ -1,11 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -o errexit
 
-set -e
-
-echo "Waiting for PostgreSQL..."
-
+python manage.py collectstatic --noinput
 python manage.py migrate
 
-echo "Starting server..."
-
-exec "$@"
+exec gunicorn yourprojectname.wsgi:application --bind 0.0.0.0:${PORT:-8000}
