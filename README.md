@@ -1,225 +1,360 @@
 # Backend Test Project
 
-A Django REST API project built with **Django Ninja**, JWT authentication, and PostgreSQL. This project provides a content management system with user authentication and authorization.
+A RESTful Content Management API built with **Django**, **Django Ninja**, **JWT Authentication**, **PostgreSQL**, and **Docker**. The project implements secure user authentication, content management, and permission-based authorization following REST API best practices.
 
-## 🎯 Features
+---
 
-- **User Authentication**: Email-based authentication with JWT tokens
-- **User Management**: Custom user model with email as unique identifier
-- **Content Management**: Create, read, update, and delete content
-- **API**: RESTful API built with Django Ninja
-- **Authorization**: Permission-based access control
-- **Docker Support**: Containerized deployment with Docker and Docker Compose
+# 🚀 Live Demo
 
-## 📋 Prerequisites
+* **Application:** https://backend-test-3-7ii6.onrender.com/
+* **Swagger API Documentation:** https://backend-test-3-7ii6.onrender.com/api/docs
+* **OpenAPI Schema:** https://backend-test-3-7ii6.onrender.com/api/openapi.json
 
-- Python 3.8+
-- PostgreSQL (optional, SQLite for development)
-- Docker & Docker Compose (optional, for containerized deployment)
+---
 
-## 🚀 Installation
+# 🛠 Tech Stack
 
-### Local Setup
+* Python 3.12
+* Django 5.2
+* Django Ninja
+* Django Ninja JWT
+* PostgreSQL
+* Docker & Docker Compose
+* Gunicorn
+* Render
 
-1. **Clone the repository**
+---
+
+# ✨ Features
+
+* Email-based user authentication
+* JWT Authentication
+* Custom User model
+* Content CRUD operations
+* Service Layer architecture
+* Permission-based authorization
+* Dockerized development environment
+* PostgreSQL database
+* Interactive Swagger documentation
+
+---
+
+# 🔒 Authorization Rules
+
+* Any authenticated user can create unlimited contents.
+* Each content belongs to exactly one user.
+* Any authenticated user can view all contents.
+* Only the owner of a content can update it.
+* Only the owner of a content can delete it.
+
+---
+
+# 📁 Project Structure
+
+```text
+backend-test/
+├── config/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── managament/
+│   ├── admin.py
+│   ├── api.py
+│   ├── auth.py
+│   ├── managers.py
+│   ├── models.py
+│   ├── permissions.py
+│   ├── schemas.py
+│   ├── services.py
+│   ├── migrations/
+│   └── ...
+│
+├── Dockerfile
+├── docker-compose.yml
+├── entrypoint.sh
+├── requirements.txt
+├── manage.py
+└── README.md
+```
+
+---
+
+# 🚀 Installation
+
+## Clone the Repository
+
 ```bash
-git clone <repository-url>
+git clone <your-repository-url>
 cd backend-test
 ```
 
-2. **Create a virtual environment**
+---
+
+## Local Installation
+
+### Create Virtual Environment
+
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. **Install dependencies**
+Linux/macOS
+
+```bash
+source venv/bin/activate
+```
+
+Windows
+
+```bash
+venv\Scripts\activate
+```
+
+---
+
+### Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **Configure environment variables**
-Create a `.env` file in the project root:
+---
+
+### Create Environment Variables
+
+Create a `.env` file in the project root.
+
 ```env
 DEBUG=True
-SECRET_KEY=your-secret-key-here
+
+SECRET_KEY=your-secret-key
+
 ALLOWED_HOSTS=localhost,127.0.0.1
+
 DATABASE_URL=sqlite:///db.sqlite3
 ```
 
-5. **Run migrations**
+---
+
+### Apply Migrations
+
 ```bash
 python manage.py migrate
 ```
 
-6. **Create a superuser** (optional)
+---
+
+### Create Superuser (Optional)
+
 ```bash
 python manage.py createsuperuser
 ```
 
-7. **Start the development server**
+---
+
+### Run Development Server
+
 ```bash
 python manage.py runserver
 ```
 
-The API will be available at `http://localhost:8000/api/`
+API:
 
-### Docker Setup
+```
+http://127.0.0.1:8000/api/
+```
 
-1. **Build and run with Docker Compose**
+Swagger:
+
+```
+http://127.0.0.1:8000/api/docs
+```
+
+---
+
+# 🐳 Docker Setup
+
+Build and run the project
+
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
-The API will be available at `http://localhost:8000/api/`
+Run in background
 
-## 📚 API Endpoints
-
-### Authentication
-- `POST /api/auth/signup` - Register a new user
-- `POST /api/auth/login` - Login and receive JWT token
-
-### Content Management
-- `GET /api/contents` - List all contents
-- `POST /api/contents` - Create new content
-- `GET /api/contents/{id}` - Get specific content
-- `PUT /api/contents/{id}` - Update content
-- `PATCH /api/contents/{id}` - Partially update content
-- `DELETE /api/contents/{id}` - Delete content
-
-### Health Check
-- `GET /api/hello` - API health check endpoint
-
-## 🏗️ Project Structure
-
-```
-backend-test/
-├── config/                 # Django configuration
-│   ├── settings.py        # Project settings
-│   ├── urls.py            # URL routing
-│   ├── wsgi.py            # WSGI configuration
-│   └── asgi.py            # ASGI configuration
-├── managament/             # Main application
-│   ├── models.py          # Database models
-│   ├── api.py             # API endpoints
-│   ├── auth.py            # Authentication logic
-│   ├── permissions.py     # Permission classes
-│   ├── schemas.py         # Pydantic schemas
-│   ├── services.py        # Business logic
-│   ├── managers.py        # Custom model managers
-│   ├── views.py           # Views
-│   ├── admin.py           # Admin configuration
-│   ├── migrations/        # Database migrations
-│   └── test/              # Test suite
-│       ├── test_auth_api.py
-│       ├── test_content_api.py
-│       └── test_models.py
-├── Dockerfile             # Docker configuration
-├── docker-compose.yml     # Docker Compose configuration
-├── manage.py              # Django management script
-├── requirements.txt       # Python dependencies
-└── entrypoint.sh          # Docker entrypoint script
-```
-
-## 📦 Dependencies
-
-Key dependencies include:
-- **Django** 5.2.16 - Web framework
-- **Django Ninja** 1.6.2 - Fast API framework for Django
-- **django-ninja-jwt** 5.4.4 - JWT authentication
-- **Pydantic** 2.13.4 - Data validation
-- **PostgreSQL** - Database (optional, SQLite for development)
-- **Gunicorn** 26.0.0 - WSGI HTTP Server
-
-For the complete list, see [requirements.txt](requirements.txt).
-
-## 🧪 Testing
-
-Run the test suite:
 ```bash
-python manage.py test
+docker compose up -d
 ```
 
-Run specific test file:
+Stop containers
+
 ```bash
-python manage.py test managament.tests.test_auth_api
+docker compose down
 ```
 
-## 🔐 Authentication
+Apply migrations
 
-The API uses JWT (JSON Web Tokens) for authentication. 
-
-1. Sign up a new user at `/api/auth/signup`
-2. Login at `/api/auth/login` to receive access token
-3. Include the token in request headers:
 ```bash
-Authorization: Bearer <your-jwt-token>
+docker compose exec web python manage.py migrate
 ```
 
-## 🗄️ Models
+Create superuser
 
-### User Model
-- Email (unique)
-- Country
-- Created/Updated timestamps
-- Custom authentication using email instead of username
-
-### Content Model
-- Owner (ForeignKey to User)
-- Title
-- Body
-- Created/Updated timestamps
-
-## 🛠️ Development
-
-### Making Migrations
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+docker compose exec web python manage.py createsuperuser
 ```
 
-### Creating Admin Users
-```bash
-python manage.py createsuperuser
+---
+
+# 📚 API Endpoints
+
+## Authentication
+
+| Method | Endpoint           | Description                 |
+| ------ | ------------------ | --------------------------- |
+| POST   | `/api/auth/signup` | Register a new user         |
+| POST   | `/api/auth/signin` | Login and receive JWT token |
+
+---
+
+## Contents
+
+| Method | Endpoint             | Description              |
+| ------ | -------------------- | ------------------------ |
+| GET    | `/api/contents`      | List all contents        |
+| GET    | `/api/contents/{id}` | Retrieve single content  |
+| POST   | `/api/contents`      | Create content           |
+| PUT    | `/api/contents/{id}` | Replace content          |
+| PATCH  | `/api/contents/{id}` | Partially update content |
+| DELETE | `/api/contents/{id}` | Delete content           |
+
+---
+
+## Test Endpoint
+
+| Method | Endpoint     |
+| ------ | ------------ |
+| GET    | `/api/hello` |
+
+---
+
+# 🔑 Authentication
+
+The API uses JWT Authentication.
+
+### Step 1
+
+Create an account
+
+```
+POST /api/auth/signup
 ```
 
-### Database Shell
-```bash
-python manage.py dbshell
+### Step 2
+
+Sign in
+
+```
+POST /api/auth/signin
 ```
 
-## 🚢 Deployment
+You'll receive a JWT access token.
 
-### Using Gunicorn
-```bash
-gunicorn config.wsgi:application --bind 0.0.0.0:8000
+### Step 3
+
+Include the token in every protected request.
+
+```
+Authorization: Bearer <access_token>
 ```
 
-### Using Docker
-```bash
-docker-compose up -d
+---
+
+# 📖 API Documentation
+
+Interactive Swagger documentation is available at:
+
+Local
+
+```
+http://127.0.0.1:8000/api/docs
 ```
 
-## 📝 Environment Variables
+Production
 
-- `DEBUG` - Enable debug mode (True/False)
-- `SECRET_KEY` - Django secret key
-- `ALLOWED_HOSTS` - Comma-separated list of allowed hosts
-- `DATABASE_URL` - Database connection URL
-- `JWT_SECRET` - JWT secret key (if different from Django SECRET_KEY)
+```
+https://backend-test-3-7ii6.onrender.com/api/docs
+```
 
-## 🤝 Contributing
+---
 
-1. Create a feature branch
-2. Make your changes
-3. Write tests for new features
-4. Run tests to ensure everything works
-5. Submit a pull request
+# 🗄 Database Models
 
-## 📄 License
+## User
 
-This project is licensed under the MIT License.
+* First Name
+* Last Name
+* Email (Unique)
+* Country
+* Password
+* Created At
+* Updated At
 
-## 📞 Support
+---
 
-For issues and questions, please open an issue in the repository.
+## Content
+
+* Owner (Foreign Key → User)
+* Title
+* Body
+* Created At
+* Updated At
+
+---
+
+# ⚙ Environment Variables
+
+| Variable      | Description                      |
+| ------------- | -------------------------------- |
+| DEBUG         | Enable/Disable Debug Mode        |
+| SECRET_KEY    | Django Secret Key                |
+| ALLOWED_HOSTS | Allowed Hosts                    |
+| DATABASE_URL  | PostgreSQL/SQLite Connection URL |
+
+---
+
+# 🚀 Deployment
+
+The application is deployed on **Render**.
+
+**Application**
+
+https://backend-test-3-7ii6.onrender.com/
+
+**Swagger**
+
+https://backend-test-3-7ii6.onrender.com/api/docs
+
+---
+
+# 📦 Main Dependencies
+
+* Django 5.2
+* Django Ninja
+* Django Ninja JWT
+* PostgreSQL
+* Gunicorn
+* Pydantic
+* Docker
+
+---
+
+# 📝 Notes
+
+* Authentication is email-based.
+* JWT is required for all protected endpoints.
+* Contents can only be updated or deleted by their owner.
+* Any authenticated user can view all contents.
+* The project follows a Service Layer architecture to separate business logic from API views.
