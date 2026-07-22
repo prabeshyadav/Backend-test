@@ -176,31 +176,36 @@ http://127.0.0.1:8000/api/docs
 
 # 🐳 Docker Setup
 
-Build and run the project
+Build and run the entire full-stack application (Frontend + Backend + PostgreSQL):
 
 ```bash
 docker compose up --build
 ```
 
-Run in background
+Access the services:
+* **Frontend Web App:** `http://localhost:5173`
+* **Django Backend API:** `http://localhost:8000/api/`
+* **Swagger Documentation:** `http://localhost:8000/api/docs`
+
+Run in background:
 
 ```bash
 docker compose up -d
 ```
 
-Stop containers
+Stop containers:
 
 ```bash
 docker compose down
 ```
 
-Apply migrations
+Apply migrations:
 
 ```bash
 docker compose exec web python manage.py migrate
 ```
 
-Create superuser
+Create superuser:
 
 ```bash
 docker compose exec web python manage.py createsuperuser

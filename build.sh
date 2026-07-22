@@ -2,5 +2,9 @@
 set -o errexit
 
 pip install -r requirements.txt
+
+# Build Frontend Application
+(cd frontend && npm install && npm run build)
+
 python manage.py collectstatic --noinput
 python manage.py migrate
