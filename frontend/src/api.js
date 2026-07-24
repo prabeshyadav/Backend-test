@@ -2,9 +2,11 @@
 // Lumina CMS — REST API Service & Authentication Storage
 // ==========================================================================
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL 
-  ? `${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, '')}/api` 
-  : '/api';
+const API_BASE = import.meta.env.DEV
+  ? '/api'
+  : import.meta.env.VITE_BACKEND_URL
+    ? `${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, '')}/api`
+    : '/api';
 const TOKEN_KEY = 'lumina_jwt_access_token';
 const USER_KEY = 'lumina_user_profile';
 
